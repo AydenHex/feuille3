@@ -14,7 +14,7 @@ namespace link
                 {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
             
             List<int> listeAnnee = new List<int>
-                {2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020};
+                {2010};
 
             // Example
             List<int> listeEntiersPair = (from unEntier in listeEntiers
@@ -40,10 +40,20 @@ namespace link
             var requeteBissextile = from uneAneee in listeAnnee
                                     where DateTime.IsLeapYear(uneAneee)
                                     select uneAneee;
-            
-            foreach (int annee in requeteBissextile.ToList()) {
-                Console.WriteLine(annee);
+
+            if (requeteBissextile.Count() == 0) {
+                int currentAnnee = listeAnnee.Max();
+                while (!DateTime.IsLeapYear(currentAnnee)) {
+                    currentAnnee++;
+                }
+                Console.WriteLine(currentAnnee);
             }
+            else {
+                foreach (int annee in requeteBissextile.ToList()) {
+                    Console.WriteLine(annee);
+                }
+            }
+            
 
             //Exercice 3.3
             List<int> divisibleParCinq = listeEntiers.
@@ -55,10 +65,10 @@ namespace link
             }
 
             //Exercice 3.4
-            Article[] testArticles = new Article[5];
+            Article[] testArticles = new Article[2];
 
-            testArticles[0] = new Article(1, "test", 25);
-            testArticles[1] = new Article(2, "test2", 65);
+            testArticles[0] = new Article(1, "test", 25, 5);
+            testArticles[1] = new Article(2, "test2", 65, 7);
 
             IArticleDao dao = new ArticleDao(testArticles);
 
@@ -68,6 +78,17 @@ namespace link
             {
                 Console.WriteLine(article);
             }
+
+            // Exercice 3.5
+            var resPrixEtQuantite = dao.GetPrixEtQuantite("test");
+            Console.WriteLine(resPrixEtQuantite);
+
+            // Exercice 3.6
+            var resPrixEtQuantiteT = dao.GetPrixEtQuantiteT("test");
+            Console.WriteLine(resPrixEtQuantiteT);
+
+            // Exercice 3.7
+            Console.WriteLine(dao.GetArticlesQuantiteEntre());
 
 
         }
